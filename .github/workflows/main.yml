@@ -1,0 +1,24 @@
+install.packages("sf")
+install.packages("leaflet")
+library('sf')
+library('leaflet')
+
+# Define las coordenadas de latitud y longitud para los marcadores
+lat <- c(6.273907285413087, 6.335438356397197, 6.185546498182906, 6.313429703023215, 6.233255329444834, 6.245549245975347, 6.24671174690434, 6.240712311456871, 6.319254357350029, 6.346321730728133)
+lon <- c(-75.588790720885, -75.55841293514831, -75.65640180684544, -75.5829736384211, -75.60414265966247, -75.55110567537959, -75.55678122954285, -75.54937909064303, -75.55212072540739, -75.50816800226261)
+
+# Define los nombres de los lugares para los marcadores
+place <- c("ITM de Robledo", "Parque Principal de Bello", "San Antonio De Prado Parque", "Barrio Paris Bello", "Centro Comercial Los Molinos", "Institución Universitaria ITM - campus Fraternidad", "Parque Bicentenario", "Unidad Deportiva Miraflores", "La Gabriela Bello", "Parque Copacabana Antioquía")
+
+# Crea un data frame con las coordenadas y los nombres de los lugares
+df <- data.frame(lon, lat, place, stringsAsFactors = FALSE)
+
+# Convert the data frame to a spatial object using the 'sf' package
+points <- st_as_sf(df, coords = c("lon", "lat"), crs = 4326)
+
+# Create a leaflet map object and add tiles
+leaflet(points) %>% 
+  addTiles() %>% 
+  addMarkers(popup = ~ place) %>%
+  addControl("<h3>Mi primera chamba</h3>",position = "topright")
+  
